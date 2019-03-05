@@ -17,7 +17,13 @@ COPY --from=Builder /orbit /usr/bin/orbit
 RUN apk --no-cache add \
         dumb-init \
         ca-certificates \
-        openssh-client
+        openssh-client && \
+    addgroup -S orbit && \
+    adduser -S orbit -G orbit
+
+
+USER orbit
+WORKDIR /home/orbit
 
 ENTRYPOINT ["dumb-init", "--", "/usr/bin/orbit"]
 CMD ["--help"]
